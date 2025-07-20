@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Michael Giannakopoulos | Portfolio</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">MG</div>
+            <div class="nav-right">
+                <a href="blog.html" class="blog-link">Blog</a>
+                <button class="mobile-menu-btn">
+                    <div class="burger-icon">
+                        <div class="burger-line"></div>
+                        <div class="burger-line"></div>
+                        <div class="burger-line"></div>
+                    </div>
+                </button>
+                <div class="nav-dropdown">
+                    <ul class="nav-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#experience">Experience</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#competitions">Competitions</a></li>
+                        <li><a href="#education">Education</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Michael Giannakopoulos</h1>
+                <p>Computer Science Graduate & Research Assistant | Master's Student</p>
+                <div class="contact-icons">
+                    <a href="#" class="contact-icon-link" title="Email" onclick="contactEmail(event)">
+                        <div class="contact-icon">
+                            <span>✉️</span>
+                        </div>
+                        <span class="contact-label reverse-text">okannaigekim</span>
+                    </a>
+                    <a href="#" class="contact-icon-link" title="Phone" onclick="contactPhone(event)">
+                        <div class="contact-icon">
+                            <span>📱</span>
+                        </div>
+                        <span class="contact-label reverse-text">6209057996</span>
+                    </a>
+                    <a href="https://linkedin.com/in/mike-giannakopoulos" target="_blank" class="contact-icon-link" title="LinkedIn">
+                        <div class="contact-icon">
+                            <span>🔗</span>
+                        </div>
+                        <span class="contact-label">LinkedIn</span>
+                    </a>
+                    <a href="https://github.com/mikegiannako" target="_blank" class="contact-icon-link" title="GitHub">
+                        <div class="contact-icon">
+                            <span>💻</span>
+                        </div>
+                        <span class="contact-label">GitHub</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About Me</h2>
+            <p>I'm a recent Computer Science graduate from the University of Crete with a strong academic record (GPA: 8.50/10). I have experience in research, teaching, and software development, with expertise in compiler design and competitive programming, and growing interests in cybersecurity.</p>
+            <p>Currently working as an Undergraduate Research Assistant at the DiSCS - Institute of Computer Science @ FORTH, where I develop full-stack applications for research projects. I'm also excited to be starting my Master's degree in Computer Science at the University of Crete this September 2025.</p>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience">
+        <div class="container">
+            <h2>Experience</h2>
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <div class="date">June 2021 - Present</div>
+                        <h3>Private Tutor</h3>
+                        <h4>Remote</h4>
+                        <ul>
+                            <li>Provided one-on-one and group tutoring sessions teaching C, C++, Java and Python</li>
+                            <li>Enhanced students' coding proficiency and problem-solving skills</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <div class="date">June 2023 - Present</div>
+                        <h3>Research Assistant</h3>
+                        <h4>DiSCS - Institute of Computer Science @ FORTH</h4>
+                        <ul>
+                            <li>Developed a full-stack web application using Node.js, MongoDB, SQL and Docker for finding malicious websites using the Google SafeBrowsing API</li>
+                            <li>Implemented secure web services with Nginx and automated SSL/TLS with Let's Encrypt</li>
+                            <li>Created visualizations using world maps and clustering techniques</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <div class="date">Sept 2023 - Sept 2024</div>
+                        <h3>Teaching Assistant - Data Structures</h3>
+                        <h4>Computer Science Department - UOC</h4>
+                        <ul>
+                            <li>Assisted in teaching by organizing assignments for 300 students</li>
+                            <li>Graded assignments and exams, providing constructive feedback</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <h2>Projects</h2>
+            <div class="projects-grid">
+                <!-- Alpha Compiler & VM -->
+                <div class="project-card">
+                    <div class="project-card-img">
+                        <span>🔧</span>
+                    </div>
+                    <div class="project-card-content">
+                        <h3>Alpha Compiler & VM</h3>
+                        <div class="tech-stack">
+                            <span class="tech-tag">C</span>
+                            <span class="tech-tag">C++</span>
+                            <span class="tech-tag">Yacc</span>
+                            <span class="tech-tag">Bison</span>
+                            <span class="tech-tag">Assembly</span>
+                            <span class="tech-tag">Git</span>
+                        </div>
+                        <p>Developed a compiler with a shift-reduce parser for a dynamically-typed language, along with a virtual machine to run the generated code. Implemented garbage collection and stack manipulation.</p>
+                        <!-- DEMO_PLACEHOLDER: Add live demo or code snippets here -->
+                        <a href="#" class="btn">View Project</a>
+                    </div>
+                </div>
+                
+                <!-- Automated Wordle Solver -->
+                <div class="project-card">
+                    <div class="project-card-img">
+                        <span>🎮</span>
+                    </div>
+                    <div class="project-card-content">
+                        <h3>Automated Wordle Solver</h3>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Selenium</span>
+                            <span class="tech-tag">Regex</span>
+                        </div>
+                        <p>Built an automation tool using Selenium WebDriver to interact with the NYTimes Wordle. Implemented algorithmic strategies and regex filtering to optimize word selection based on letter frequency.</p>
+                        <!-- DEMO_PLACEHOLDER: Add live demo, screenshots, or videos here -->
+                        <a href="#" class="btn">View Project</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Competitions Section -->
+    <section id="competitions">
+        <div class="container">
+            <h2>Competitions & Achievements</h2>
+            
+            <!-- CTF Competitions (Featured) -->
+            <div class="featured-competition">
+                <div class="featured-competition-content">
+                    <h3>Capture The Flag (CTF)</h3>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">IDA</span>
+                        <span class="tech-tag">HackTheBox</span>
+                    </div>
+                    <p>Member of <strong>0xdeada1u5</strong> team since September 2021</p>
+                    <ul>
+                        <li>Achieved <strong>2nd place</strong> in the Hellenic Universities' CTF competition in 2022</li>
+                        <li>Utilized IDA for decompiling executable files and performing reverse engineering</li>
+                    </ul>
+                    <p>Participated in various CTF competitions across different platforms</p>
+                    <!-- DEMO_PLACEHOLDER: Add achievements, screenshots, or walkthrough content here -->
+                </div>
+            </div>
+            
+            <h3 class="competitions-subtitle">Programming Contests</h3>
+            <div class="competitions-tiles">
+                <!-- Reply Challenge -->
+                <div class="competition-tile">
+                    <div class="competition-tile-front">
+                        <div class="competition-tile-icon">🏆</div>
+                        <h4>Reply Challenge</h4>
+                    </div>
+                    <div class="competition-tile-back">
+                        <h4>Reply Challenge Teen Edition</h4>
+                        <p>Global rank: <strong>71</strong> out of 1,150 teams (2022)</p>
+                    </div>
+                </div>
+                
+                <!-- Google HashCode -->
+                <div class="competition-tile">
+                    <div class="competition-tile-front">
+                        <div class="competition-tile-icon">🌐</div>
+                        <h4>Google HashCode</h4>
+                    </div>
+                    <div class="competition-tile-back">
+                        <h4>Google HashCode</h4>
+                        <p>Team ranking: <strong>3490</strong> (2022)</p>
+                    </div>
+                </div>
+                
+                <!-- Codeforces -->
+                <div class="competition-tile">
+                    <div class="competition-tile-front">
+                        <div class="competition-tile-icon">💻</div>
+                        <h4>Codeforces</h4>
+                    </div>
+                    <div class="competition-tile-back">
+                        <h4>Codeforces</h4>
+                        <p>Joined multiple <strong>Div. 3 and 4</strong> contests</p>
+                    </div>
+                </div>
+                
+                <!-- Advent of Code -->
+                <div class="competition-tile">
+                    <div class="competition-tile-front">
+                        <div class="competition-tile-icon">🎄</div>
+                        <h4>Advent of Code</h4>
+                    </div>
+                    <div class="competition-tile-back">
+                        <h4>Advent of Code</h4>
+                        <p>Published solutions on GitHub with descriptive comments</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education">
+        <div class="container">
+            <h2>Education</h2>
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <div class="date">Sept 2025 - Present</div>
+                        <h3>Master of Science in Computer Science</h3>
+                        <h4>University of Crete, Heraklion, Crete</h4>
+                        <p>Currently pursuing advanced studies in Computer Science with focus on software engineering and programming languages.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <div class="date">Sept 2020 - July 2025</div>
+                        <h3>Bachelor of Science in Computer Science</h3>
+                        <h4>University of Crete, Heraklion, Crete</h4>
+                        <p><strong>Graduated with GPA: 8.50/10</strong></p>
+                        <p>Specialized in software development, algorithm design, and compiler construction. Completed coursework in data structures, advanced programming paradigms, and system design along with others.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2>Contact Me</h2>
+            <div class="contact-form-container">
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Michael Jason Giannakopoulos. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Michael Giannakopoulos</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/blog.css">
+</head>
+<body>
+    <!-- Your navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="../index.html" style="color: var(--light-color); text-decoration: none;">MG</a>
+            </div>
+            <div class="nav-right">
+                <a href="../blog.html" class="blog-link active">Blog</a>
+                <button class="mobile-menu-btn">
+                    <div class="burger-icon">
+                        <div class="burger-line"></div>
+                        <div class="burger-line"></div>
+                        <div class="burger-line"></div>
+                    </div>
+                </button>
+                <div class="nav-dropdown">
+                    <ul class="nav-links">
+                        <li><a href="../index.html#home">Home</a></li>
+                        <li><a href="../index.html#about">About</a></li>
+                        <li><a href="../index.html#experience">Experience</a></li>
+                        <li><a href="../index.html#projects">Projects</a></li>
+                        <li><a href="../index.html#competitions">Competitions</a></li>
+                        <li><a href="../index.html#education">Education</a></li>
+                        <li><a href="../index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Content -->
+    <main class="blog-container">
+        <div class="container">
+            <div class="blog-header">
+                <h1>My Blog</h1>
+                <p>Thoughts on Computer Science, Research, and Technology</p>
+            </div>
+
+            <!-- THIS IS THE KEY PART -->
+            <div class="blog-posts">
+                {{POSTS}}  <!-- Posts get inserted here -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {{YEAR}} Michael Jason Giannakopoulos. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/blog.js"></script>
+</body>
+</html>

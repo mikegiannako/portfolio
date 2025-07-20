@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{TITLE}} | Michael Giannakopoulos</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/blog.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="../index.html" style="color: var(--light-color); text-decoration: none;">MG</a>
+            </div>
+            <div class="nav-right">
+                <a href="../blog.html" class="blog-link active">Blog</a>
+                <button class="mobile-menu-btn">
+                    <div class="burger-icon">
+                        <div class="burger-line"></div>
+                        <div class="burger-line"></div>
+                        <div class="burger-line"></div>
+                    </div>
+                </button>
+                <div class="nav-dropdown">
+                    <ul class="nav-links">
+                        <li><a href="../index.html#home">Home</a></li>
+                        <li><a href="../index.html#about">About</a></li>
+                        <li><a href="../index.html#experience">Experience</a></li>
+                        <li><a href="../index.html#projects">Projects</a></li>
+                        <li><a href="../index.html#competitions">Competitions</a></li>
+                        <li><a href="../index.html#education">Education</a></li>
+                        <li><a href="../index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Post Content -->
+    <main class="post-container">
+        <div class="container">
+            <article class="blog-post">
+                <header class="post-header">
+                    <div class="post-meta">
+                        <span class="post-date">{{DATE}}</span>
+                        <span class="post-separator">•</span>
+                        <span class="post-category">{{CATEGORY}}</span>
+                    </div>
+                    <h1 class="post-title">{{TITLE}}</h1>
+                </header>
+                
+                <div class="post-content">
+                    {{CONTENT}}
+                </div>
+                
+                <footer class="post-footer">
+                    <a href="../blog.html" class="back-to-blog">← Back to Blog</a>
+                </footer>
+            </article>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; {{YEAR}} Michael Jason Giannakopoulos. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/blog.js"></script>
+</body>
+</html>

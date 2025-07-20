@@ -1,0 +1,23 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-blog": "node build-blog.js",
+    "serve": "python -m http.server 8000 --bind 127.0.0.1",
+    "dev": "npm run build-blog && python -m http.server 8000 --bind 127.0.0.1",
+    "dev-win": "npm run build-blog && python -m http.server 8000",
+    "watch": "nodemon --watch blog-content/posts --ext md --exec \"npm run build-blog\"",
+    "clean": "rm -rf posts/* api/*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "marked": "^9.1.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

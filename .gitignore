@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Generated files (GitHub Actions will build these)
+posts/*.html
+api/blog.json
+
+# Logs
+npm-debug.log*
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*~
+
+# Environment variables
+.env*
+
+# Temporary files
+.tmp/
+.temp/
