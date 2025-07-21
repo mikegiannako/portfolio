@@ -3,7 +3,8 @@ node_modules/
 
 # Generated files (GitHub Actions will build these)
 posts/*.html
-api/blog.json
+api/*
+blog.html
 
 # Logs
 npm-debug.log*

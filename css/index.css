@@ -82,6 +82,19 @@
     font-weight: 500;
 }
 
+/* Landing Page Contact Icons */
+.contact-icon-img {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
+
+.contact-icon-link:hover .contact-icon-img {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 8px rgba(52, 152, 219, 0.6));
+}
+
 /* About Section */
 .about {
     background-color: var(--bg-color);
@@ -176,15 +189,11 @@
     border-radius: var(--border-radius);
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    transition: transform 0.3s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     height: 100%;
     display: flex;
     flex-direction: column;
     border: 1px solid var(--border-color);
-}
-
-.project-card:hover {
-    transform: translateY(-5px);
 }
 
 .project-card-img {
@@ -196,7 +205,97 @@
     justify-content: center;
     color: white;
     font-size: 2rem;
+    position: relative;
+    overflow: hidden;
 }
+
+/* Icon-based project cards */
+.project-card-img.has-icon {
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+}
+
+.project-card-img.has-icon span {
+    font-size: 2.5rem;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+/* Image-based project cards */
+.project-card-img.has-image {
+    background: var(--dark-color);
+    padding: 0;
+}
+
+.project-card-img-element {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+/* Hover effect for images */
+.project-card:hover .project-card-img-element {
+    transform: scale(1.05);
+}
+
+/* Priority indicators */
+.project-card[data-priority="platinum"]::before {
+    content: "★";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: linear-gradient(45deg, #e6e6fa, #c0c0c0);
+    color: #4b0082;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(75, 0, 130, 0.3);
+}
+
+.project-card[data-priority="gold"]::before {
+    content: "★";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: linear-gradient(45deg, #ffd700, #ffed4e);
+    color: #b8860b;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(184, 134, 11, 0.3);
+}
+
+.project-card[data-priority="silver"]::before {
+    content: "★";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: linear-gradient(45deg, #c0c0c0, #e5e5e5);
+    color: #696969;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(105, 105, 105, 0.3);
+}
+
+/* Bronze gets no indicator - it's the default */
 
 .project-card-content {
     padding: 1.5rem;
@@ -226,6 +325,100 @@
     background-color: var(--dark-color);
     border-radius: 20px;
     font-size: 0.8rem;
+}
+
+/* Project Links as Icon Buttons */
+.project-links {
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    padding-top: 1rem;
+}
+
+.project-icon-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    position: relative;
+}
+
+.project-icon-link:hover {
+    transform: translateY(-3px) scale(1.05);
+}
+
+/* GitHub Icon Link */
+.project-icon-link.github {
+    background-color: #333;
+    border: 2px solid #555;
+}
+
+.project-icon-link.github:hover {
+    background-color: #24292e;
+    border-color: #666;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Demo Icon Link */
+.project-icon-link.demo {
+    background-color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+}
+
+.project-icon-link.demo:hover {
+    background-color: #2980b9;
+    border-color: #2980b9;
+    box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4);
+}
+
+/* Project Link Icons - Remove all filters */
+.project-link-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
+
+.project-icon-link:hover .project-link-icon {
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.2));
+}
+
+/* Enhanced hover effects for project cards */
+.project-card[data-priority="platinum"]:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(75, 0, 130, 0.2);
+    border-color: #e6e6fa;
+}
+
+.project-card[data-priority="gold"]:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(255, 215, 0, 0.2);
+    border-color: #ffd700;
+}
+
+.project-card[data-priority="silver"]:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(192, 192, 192, 0.2);
+    border-color: #c0c0c0;
+}
+
+.project-card[data-priority="bronze"]:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+}
+
+/* No projects fallback */
+.no-projects {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--text-color);
+    font-style: italic;
 }
 
 /* Competitions Section */
@@ -400,5 +593,47 @@
     
     .contact-icons {
         justify-content: center;
+    }
+    
+    .project-card::before {
+        top: 8px;
+        right: 8px;
+        width: 20px;
+        height: 20px;
+        font-size: 10px;
+    }
+    
+    .project-icon-link {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .project-link-icon {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+@media (max-width: 480px) {
+    .project-card-img {
+        height: 140px;
+    }
+    
+    .project-card-img.has-icon span {
+        font-size: 2rem;
+    }
+    
+    .project-links {
+        gap: 1rem;
+    }
+    
+    .project-icon-link {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .project-link-icon {
+        width: 30px;
+        height: 30px;
     }
 }

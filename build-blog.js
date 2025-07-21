@@ -1,9 +1,9 @@
-// build-blog.js - Minimal production build script
+// build-blog.js - Enhanced with projects support
 const fs = require('fs');
 const path = require('path');
 const marked = require('marked');
 
-// Configure marked for consistent output (marked@9.1.6 API)
+// Configure marked for consistent output
 marked.setOptions({
     gfm: true,
     breaks: false,
@@ -16,10 +16,12 @@ marked.setOptions({
 class BlogBuilder {
     constructor() {
         this.sourceDir = './blog-content/posts';
+        this.projectsDir = './portfolio-content/projects';
         this.templatesDir = './blog-content/templates';
         this.postsOutputDir = './posts';
         this.apiDir = './api';
         this.posts = [];
+        this.projects = [];
         
         this.ensureDirectories();
     }
@@ -31,6 +33,30 @@ class BlogBuilder {
                 fs.mkdirSync(dir, { recursive: true });
             }
         });
+    }
+
+    async build() {
+        console.log('🔨 Building Michael\'s Portfolio & Blog...');
+        console.log('==========================================');
+        
+        try {
+            await this.buildPosts();
+            await this.buildProjects();
+            this.generateBlogListPage();
+            this.generatePostPages();
+            this.generateIndexPageWithProjects();
+            this.generateApiData();
+            
+            console.log('==========================================');
+            console.log(`✅ Portfolio built successfully!`);
+            console.log(`📊 Posts: ${this.posts.length}`);
+            console.log(`📁 Projects: ${this.projects.length}`);
+            console.log(`📄 Pages: blog.html, index.html + ${this.posts.length} post pages`);
+            console.log(`🔗 API data: api/blog.json, api/projects.json`);
+        } catch (error) {
+            console.error('❌ Build failed:', error.message);
+            process.exit(1);
+        }
     }
 
     async buildPosts() {
@@ -72,6 +98,51 @@ class BlogBuilder {
         console.log(`✅ Processed ${this.posts.length} posts`);
     }
 
+    async buildProjects() {
+        console.log('🚀 Reading projects...');
+        
+        if (!fs.existsSync(this.projectsDir)) {
+            console.log('📁 No projects directory found.');
+            return;
+        }
+
+        const files = fs.readdirSync(this.projectsDir)
+            .filter(file => file.endsWith('.json'))
+            .sort();
+
+        if (files.length === 0) {
+            console.log('📁 No projects found.');
+            return;
+        }
+
+        for (const file of files) {
+            try {
+                const content = fs.readFileSync(
+                    path.join(this.projectsDir, file), 
+                    'utf-8'
+                );
+                
+                const project = this.parseProject(content, file);
+                if (project) {
+                    this.projects.push(project);
+                    console.log(`✅ Parsed: ${project.title}`);
+                }
+            } catch (error) {
+                console.error(`❌ Error reading ${file}:`, error.message);
+            }
+        }
+
+        // Sort by priority: platinum > gold > silver > bronze
+        const priorityOrder = { 'platinum': 4, 'gold': 3, 'silver': 2, 'bronze': 1 };
+        this.projects.sort((a, b) => {
+            const aPriority = priorityOrder[a.priority] || 0;
+            const bPriority = priorityOrder[b.priority] || 0;
+            return bPriority - aPriority;
+        });
+        
+        console.log(`✅ Processed ${this.projects.length} projects`);
+    }
+
     parsePost(content, filename) {
         try {
             const frontmatterRegex = /^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/;
@@ -85,7 +156,6 @@ class BlogBuilder {
             const [, frontmatter, markdown] = match;
             const metadata = this.parseFrontmatter(frontmatter);
             
-            // Use marked.parse() for marked@9.1.6
             const htmlContent = marked.parse(markdown);
             
             return {
@@ -97,6 +167,39 @@ class BlogBuilder {
             };
         } catch (error) {
             console.error(`❌ Error parsing ${filename}:`, error.message);
+            return null;
+        }
+    }
+
+    parseProject(content, filename) {
+        try {
+            const project = JSON.parse(content);
+            
+            // Validate required fields
+            if (!project.title || !project.description || !project.technologies) {
+                console.error(`❌ ${filename}: Missing required fields (title, description, technologies)`);
+                return null;
+            }
+
+            // Set default values
+            project.priority = project.priority || 'bronze';
+            project.slug = filename.replace('.json', '');
+            
+            // Validate priority
+            if (!['platinum', 'gold', 'silver', 'bronze'].includes(project.priority)) {
+                console.warn(`⚠️ ${filename}: Invalid priority '${project.priority}', defaulting to 'bronze'`);
+                project.priority = 'bronze';
+            }
+
+            // Validate that either icon or image is provided
+            if (!project.icon && !project.image) {
+                console.warn(`⚠️ ${filename}: No icon or image provided, using default`);
+                project.icon = '📁';
+            }
+
+            return project;
+        } catch (error) {
+            console.error(`❌ Error parsing project ${filename}:`, error.message);
             return null;
         }
     }
@@ -171,6 +274,73 @@ class BlogBuilder {
         console.log('✅ Generated blog.html');
     }
 
+    generateIndexPageWithProjects() {
+        console.log('🏠 Updating index.html with projects...');
+        
+        if (!fs.existsSync('./index.html')) {
+            console.error('❌ index.html not found');
+            return;
+        }
+
+        let indexContent = fs.readFileSync('./index.html', 'utf-8');
+        
+        const projectsHtml = this.projects.length > 0 
+            ? this.projects.map(project => this.generateProjectCard(project)).join('')
+            : '<div class="no-projects"><p>Projects loading...</p></div>';
+
+        // Replace the existing projects grid content
+        const projectsGridRegex = /(<div class="projects-grid">)([\s\S]*?)(<\/div>\s*<\/div>\s*<\/section>)/;
+        const replacement = `$1\n${projectsHtml}\n                $3`;
+        
+        indexContent = indexContent.replace(projectsGridRegex, replacement);
+        
+        fs.writeFileSync('./index.html', indexContent);
+        console.log('✅ Updated index.html with projects');
+    }
+
+    generateProjectCard(project) {
+        // Determine if using image or icon
+        const mediaElement = project.image 
+            ? `<img src="${project.image}" alt="${project.title}" class="project-card-img-element">`
+            : `<span>${project.icon}</span>`;
+
+        // Generate tech tags
+        const techTags = project.technologies.map(tech => 
+            `<span class="tech-tag">${tech}</span>`
+        ).join('');
+
+        // Generate icon links
+        let linksHtml = '';
+        if (project.github) {
+            linksHtml += `
+                <a href="${project.github}" target="_blank" class="project-icon-link github" title="View on GitHub">
+                    <img src="assets/images/github-icon.webp" alt="GitHub" class="project-link-icon">
+                </a>`;
+        }
+        if (project.link && project.link !== project.github) {
+            linksHtml += `
+                <a href="${project.link}" target="_blank" class="project-icon-link demo" title="View Live Demo">
+                    <img src="assets/images/demo-icon.png" alt="Demo" class="project-link-icon">
+                </a>`;
+        }
+
+        return `
+                <!-- ${project.title} - Priority: ${project.priority} -->
+                <div class="project-card" data-priority="${project.priority}">
+                    <div class="project-card-img ${project.image ? 'has-image' : 'has-icon'}">
+                        ${mediaElement}
+                    </div>
+                    <div class="project-card-content">
+                        <h3>${project.title}</h3>
+                        <div class="tech-stack">
+                            ${techTags}
+                        </div>
+                        <p>${project.description}</p>
+                        ${linksHtml ? `<div class="project-links">${linksHtml}</div>` : ''}
+                    </div>
+                </div>`;
+    }
+
     generatePostPages() {
         if (this.posts.length === 0) return;
         
@@ -201,7 +371,8 @@ class BlogBuilder {
     generateApiData() {
         console.log('🔌 Generating API data...');
         
-        const apiData = {
+        // Blog API
+        const blogApiData = {
             posts: this.posts.map(post => ({
                 slug: post.slug,
                 title: post.title,
@@ -214,7 +385,25 @@ class BlogBuilder {
             totalPosts: this.posts.length
         };
 
-        fs.writeFileSync(`${this.apiDir}/blog.json`, JSON.stringify(apiData, null, 2));
+        // Projects API
+        const projectsApiData = {
+            projects: this.projects.map(project => ({
+                slug: project.slug,
+                title: project.title,
+                description: project.description,
+                priority: project.priority,
+                technologies: project.technologies,
+                icon: project.icon,
+                image: project.image,
+                github: project.github,
+                link: project.link
+            })),
+            lastUpdated: new Date().toISOString(),
+            totalProjects: this.projects.length
+        };
+
+        fs.writeFileSync(`${this.apiDir}/blog.json`, JSON.stringify(blogApiData, null, 2));
+        fs.writeFileSync(`${this.apiDir}/projects.json`, JSON.stringify(projectsApiData, null, 2));
         console.log('✅ Generated API data');
     }
 
@@ -225,27 +414,6 @@ class BlogBuilder {
             month: 'long', 
             day: 'numeric' 
         });
-    }
-
-    async build() {
-        console.log('🔨 Building Michael\'s Blog...');
-        console.log('================================');
-        
-        try {
-            await this.buildPosts();
-            this.generateBlogListPage();
-            this.generatePostPages();
-            this.generateApiData();
-            
-            console.log('================================');
-            console.log(`✅ Blog built successfully!`);
-            console.log(`📊 Posts: ${this.posts.length}`);
-            console.log(`📄 Pages generated: blog.html + ${this.posts.length} post pages`);
-            console.log(`🔗 API data: api/blog.json`);
-        } catch (error) {
-            console.error('❌ Build failed:', error.message);
-            process.exit(1);
-        }
     }
 }
 

@@ -57,13 +57,13 @@
                     </a>
                     <a href="https://linkedin.com/in/mike-giannakopoulos" target="_blank" class="contact-icon-link" title="LinkedIn">
                         <div class="contact-icon">
-                            <span>🔗</span>
+                            <img src="assets/images/linkedin-icon.webp" alt="LinkedIn" class="contact-icon-img">
                         </div>
                         <span class="contact-label">LinkedIn</span>
                     </a>
                     <a href="https://github.com/mikegiannako" target="_blank" class="contact-icon-link" title="GitHub">
                         <div class="contact-icon">
-                            <span>💻</span>
+                            <img src="assets/images/github-icon.webp" alt="GitHub" class="contact-icon-img">
                         </div>
                         <span class="contact-label">GitHub</span>
                     </a>
@@ -129,43 +129,56 @@
         <div class="container">
             <h2>Projects</h2>
             <div class="projects-grid">
-                <!-- Alpha Compiler & VM -->
-                <div class="project-card">
-                    <div class="project-card-img">
-                        <span>🔧</span>
+
+                <!-- Alpha Compiler & VM - Priority: gold -->
+                <div class="project-card" data-priority="gold">
+                    <div class="project-card-img has-image">
+                        <img src="/assets/images/project-screenshots/compilers-image.png" alt="Alpha Compiler & VM" class="project-card-img-element">
                     </div>
                     <div class="project-card-content">
                         <h3>Alpha Compiler & VM</h3>
                         <div class="tech-stack">
-                            <span class="tech-tag">C</span>
-                            <span class="tech-tag">C++</span>
-                            <span class="tech-tag">Yacc</span>
-                            <span class="tech-tag">Bison</span>
-                            <span class="tech-tag">Assembly</span>
-                            <span class="tech-tag">Git</span>
+                            <span class="tech-tag">C</span><span class="tech-tag">C++</span><span class="tech-tag">Yacc</span><span class="tech-tag">Bison</span><span class="tech-tag">Assembly</span>
                         </div>
                         <p>Developed a compiler with a shift-reduce parser for a dynamically-typed language, along with a virtual machine to run the generated code. Implemented garbage collection and stack manipulation.</p>
-                        <!-- <a href="#" class="btn">View Project</a> -->
+                        <div class="project-links">
+                <a href="https://github.com/orfeasxyz/hy340_compilers" target="_blank" class="project-icon-link github" title="View on GitHub">
+                    <img src="assets/images/github-icon.webp" alt="GitHub" class="project-link-icon">
+                </a></div>
                     </div>
                 </div>
-                
-                <!-- Automated Wordle Solver -->
-                <div class="project-card">
-                    <div class="project-card-img">
-                        <span>🎮</span>
+                <!-- Alpha Compiler & VM - Priority: gold -->
+                <div class="project-card" data-priority="gold">
+                    <div class="project-card-img has-image">
+                        <img src="/assets/images/project-screenshots/autograder-image.png" alt="Alpha Compiler & VM" class="project-card-img-element">
+                    </div>
+                    <div class="project-card-content">
+                        <h3>Alpha Compiler & VM</h3>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Java</span><span class="tech-tag">JavaParser</span><span class="tech-tag">AST</span><span class="tech-tag">Spring Boot</span><span class="tech-tag">Javascript</span><span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span class="tech-tag">Cross-Platform</span>
+                        </div>
+                        <p>This is my Thesis, a portable Spring Boot application that automatically evaluates student Java submissions by analyzing both code structure and functionality. It provides both a web interface and command-line mode for grading Java programming assignments against configurable requirements.</p>
+                        
+                    </div>
+                </div>
+                <!-- Automated Wordle Solver - Priority: silver -->
+                <div class="project-card" data-priority="silver">
+                    <div class="project-card-img has-image">
+                        <img src="/assets/images/project-screenshots/worlde-image.png" alt="Automated Wordle Solver" class="project-card-img-element">
                     </div>
                     <div class="project-card-content">
                         <h3>Automated Wordle Solver</h3>
                         <div class="tech-stack">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Selenium</span>
-                            <span class="tech-tag">Regex</span>
+                            <span class="tech-tag">Python</span><span class="tech-tag">Selenium</span><span class="tech-tag">Regex</span>
                         </div>
                         <p>Built an automation tool using Selenium WebDriver to interact with the NYTimes Wordle. Implemented algorithmic strategies and regex filtering to optimize word selection based on letter frequency.</p>
-                        <!-- <a href="#" class="btn">View Project</a> -->
+                        <div class="project-links">
+                <a href="https://github.com/mikegiannako/Wordle-Solver" target="_blank" class="project-icon-link github" title="View on GitHub">
+                    <img src="assets/images/github-icon.webp" alt="GitHub" class="project-link-icon">
+                </a></div>
                     </div>
                 </div>
-            </div>
+                </div>
         </div>
     </section>
 

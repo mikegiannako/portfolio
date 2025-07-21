@@ -1,0 +1,7 @@
+{
+  "title": "Alpha Compiler & VM",
+  "description": "This is my Thesis, a portable Spring Boot application that automatically evaluates student Java submissions by analyzing both code structure and functionality. It provides both a web interface and command-line mode for grading Java programming assignments against configurable requirements.",
+  "image": "/assets/images/project-screenshots/autograder-image.png",
+  "priority": "gold",
+  "technologies": ["Java", "JavaParser", "AST", "Spring Boot", "Javascript", "HTML", "CSS", "Cross-Platform"]
+}
