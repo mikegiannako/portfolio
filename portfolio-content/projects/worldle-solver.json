@@ -1,7 +1,7 @@
 {
   "title": "Automated Wordle Solver",
   "description": "Built an automation tool using Selenium WebDriver to interact with the NYTimes Wordle. Implemented algorithmic strategies and regex filtering to optimize word selection based on letter frequency.",
-  "image": "/assets/images/project-screenshots/worlde-image.png",
+  "image": "/portfolio/assets/images/project-screenshots/worlde-image.png",
   "priority": "silver",
   "technologies": ["Python", "Selenium", "Regex"],
   "github": "https://github.com/mikegiannako/Wordle-Solver"

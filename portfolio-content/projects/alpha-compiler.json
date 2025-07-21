@@ -1,7 +1,7 @@
 {
   "title": "Alpha Compiler & VM",
   "description": "Developed a compiler with a shift-reduce parser for a dynamically-typed language, along with a virtual machine to run the generated code. Implemented garbage collection and stack manipulation.",
-  "image": "/assets/images/project-screenshots/compilers-image.png",
+  "image": "/portfolio/assets/images/project-screenshots/compilers-image.png",
   "priority": "gold",
   "technologies": ["C", "C++", "Yacc", "Bison", "Assembly"],
   "github": "https://github.com/orfeasxyz/hy340_compilers"
