@@ -412,6 +412,32 @@
     box-shadow: 0 8px 15px rgba(0,0,0,0.3);
 }
 
+.contact-icon-img {
+    width: 24px !important;
+    height: 24px !important;
+    max-width: 24px;
+    max-height: 24px;
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
+
+.project-link-icon {
+    width: 40px !important;
+    height: 40px !important;
+    max-width: 40px;
+    max-height: 40px;
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
+
+/* GitHub icon specific sizing */
+.project-icon-link.github .project-link-icon {
+    width: 50px !important;
+    height: 50px !important;
+    max-width: 50px;
+    max-height: 50px;
+}
+
 /* No projects fallback */
 .no-projects {
     grid-column: 1 / -1;
