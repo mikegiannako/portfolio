@@ -11,6 +11,12 @@
     background-color: var(--dark-color);
     position: relative;
     overflow: hidden;
+
+    background-image: 
+    radial-gradient(circle at 20% 80%, rgba(52, 152, 219, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(155, 89, 182, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(46, 204, 113, 0.1) 0%, transparent 50%);
+    animation: meshMove 20s ease-in-out infinite;
 }
 
 .hero-content {
@@ -25,6 +31,25 @@
 .hero p {
     font-size: 1.2rem;
     margin-bottom: 2rem;
+}
+
+
+@keyframes meshMove {
+    0%, 100% {
+        background-position: 0% 0%, 100% 100%, 50% 50%;
+    }
+    33% {
+        background-position: 30% 70%, 70% 30%, 80% 20%;
+    }
+    66% {
+        background-position: 70% 30%, 30% 70%, 20% 80%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero {
+        animation: none;
+    }
 }
 
 .contact-icons {
