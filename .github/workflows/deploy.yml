@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     paths:
       - 'blog-content/**'        # Trigger on blog content changes
+      - 'portfolio-content/**'   # Trigger on project content changes
       - 'css/**'                 # Trigger on CSS changes
       - 'js/**'                  # Trigger on JS changes
       - '*.html'                 # Trigger on HTML changes
