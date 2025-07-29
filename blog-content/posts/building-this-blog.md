@@ -1,6 +1,6 @@
 ---
 title: Building This Blog - A Developer's Journey
-date: 2025-01-20
+date: 2025-07-20
 category: Web Development
 icon: 🚀
 ---

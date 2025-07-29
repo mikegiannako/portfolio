@@ -1,6 +1,6 @@
 ---
 title: From Static to Dynamic - Rebuilding My Projects System
-date: 2025-01-21
+date: 2025-07-21
 category: Web Development
 icon: 🔧
 ---
