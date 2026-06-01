@@ -3,18 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Michael Giannakopoulos | Portfolio</title>
+    <meta name="description" content="Michael Giannakopoulos — Computer Science graduate, MSc student & Compilers Teaching Assistant. Compilers, virtual machines, systems, and competitive programming.">
+    <title>Michael Giannakopoulos | Computer Scientist</title>
+    <script>
+        // Apply saved/preferred theme before first paint to avoid a flash
+        (function () {
+            try {
+                var t = localStorage.getItem('theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {}
+        })();
+    </script>
+    <style>
+        /* Critical: paint the themed background + scheme before external CSS loads (no flash) */
+        html { background: #f5f6f9; color-scheme: light; }
+        html[data-theme="dark"] { background: #282c34; color-scheme: dark; }
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=optional" rel="stylesheet">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23ffffff'/><circle cx='16' cy='16' r='4' fill='%235b57eb'/></svg>">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/index.css">
+    <noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">MG</div>
+            <div class="logo"><a href="index.html">MG</a></div>
             <div class="nav-right">
+                <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+                </button>
                 <a href="blog.html" class="blog-link">Blog</a>
-                <button class="mobile-menu-btn">
+                <button class="mobile-menu-btn" aria-label="Open navigation menu">
                     <div class="burger-icon">
                         <div class="burger-line"></div>
                         <div class="burger-line"></div>
@@ -40,83 +66,107 @@
     <section id="home" class="hero">
         <div class="container">
             <div class="hero-content">
-                <h1>Michael Giannakopoulos</h1>
-                <p>Computer Science Graduate & Research Assistant | Master's Student</p>
+                <div class="hero-kicker"><span class="dot"></span> Computer Scientist · Heraklion, GR</div>
+                <h1>Michael<br><span class="accent">Giannakopoulos</span></h1>
+                <p class="hero-tagline">I build <strong>compilers</strong>, <strong>virtual machines</strong>, and full-stack tools. Now an <strong>MSc student</strong> and <strong>Compilers Teaching Assistant</strong> at the University of Crete.</p>
                 <div class="contact-icons">
                     <a href="#" class="contact-icon-link" title="Email" onclick="contactEmail(event)">
-                        <div class="contact-icon">
-                            <span>✉️</span>
-                        </div>
+                        <span class="contact-icon">✉</span>
                         <span class="contact-label reverse-text">okannaigekim</span>
                     </a>
                     <a href="#" class="contact-icon-link" title="Phone" onclick="contactPhone(event)">
-                        <div class="contact-icon">
-                            <span>📱</span>
-                        </div>
+                        <span class="contact-icon">☎</span>
                         <span class="contact-label reverse-text">6209057996</span>
                     </a>
-                    <a href="https://www.linkedin.com/in/mike-giannakopoulos-257363207/" target="_blank" class="contact-icon-link" title="LinkedIn">
-                        <div class="contact-icon">
-                            <img src="assets/images/linkedin-icon.webp" alt="LinkedIn" class="contact-icon-img">
-                        </div>
+                    <a href="https://www.linkedin.com/in/mike-giannakopoulos-257363207/" target="_blank" rel="noopener" class="contact-icon-link" title="LinkedIn">
+                        <span class="contact-icon"><img src="assets/images/linkedin-icon.webp" alt="" class="contact-icon-img"></span>
                         <span class="contact-label">LinkedIn</span>
                     </a>
-                    <a href="https://github.com/mikegiannako" target="_blank" class="contact-icon-link" title="GitHub">
-                        <div class="contact-icon">
-                            <img src="assets/images/github-icon.webp" alt="GitHub" class="contact-icon-img">
-                        </div>
+                    <a href="https://github.com/mikegiannako" target="_blank" rel="noopener" class="contact-icon-link" title="GitHub">
+                        <span class="contact-icon"><img src="assets/images/github-icon.webp" alt="" class="contact-icon-img"></span>
                         <span class="contact-label">GitHub</span>
                     </a>
                 </div>
             </div>
         </div>
+        <div class="scroll-cue"><span>scroll</span><span class="line"></span></div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="about">
+    <section id="about" class="section-alt">
         <div class="container">
-            <h2>About Me</h2>
-            <p>I'm a recent Computer Science graduate from the University of Crete with a strong academic record (GPA: 8.50/10). I have experience in research, teaching, and software development, with expertise in compiler design and competitive programming, and growing interests in cybersecurity.</p>
-            <p>Currently working as an Undergraduate Research Assistant at the DiSCS - Institute of Computer Science @ FORTH, where I develop full-stack applications for research projects. I'm also excited to be starting my Master's degree in Computer Science at the University of Crete this September 2025.</p>
+            <div class="section-head" data-reveal>
+                <span class="kicker">01 — About</span>
+                <h2 class="section-title">A builder of low-level things</h2>
+            </div>
+            <div class="about-grid">
+                <div class="about-body" data-reveal>
+                    <p class="about-lead">Computer Science graduate from the University of Crete, drawn to the parts of the stack most people never see — <span class="hl">compilers, virtual machines, and systems</span> — with a competitive-programming habit and a growing pull toward cybersecurity.</p>
+                    <p>For two years I worked as an Undergraduate Research Assistant at DiSCS — Institute of Computer Science @ FORTH, building full-stack applications for research projects, from secure web services to data visualizations.</p>
+                    <p>In September 2025 I began my Master's in Computer Science at the University of Crete, where I now also teach as a Compilers Teaching Assistant — aiming to specialize in software engineering and programming languages.</p>
+                </div>
+                <div class="about-meta" data-reveal>
+                    <div class="meta-row"><span class="meta-key">Focus</span><span class="meta-val">Compilers · Systems</span></div>
+                    <div class="meta-row"><span class="meta-key">Role</span><span class="meta-val">Compilers TA · UoC</span></div>
+                    <div class="meta-row"><span class="meta-key">Studying</span><span class="meta-val">MSc Computer Science</span></div>
+                    <div class="meta-row"><span class="meta-key">GPA</span><span class="meta-val accent">8.50 / 10</span></div>
+                    <div class="meta-row"><span class="meta-key">Based in</span><span class="meta-val">Heraklion, Crete</span></div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Experience Section -->
     <section id="experience">
         <div class="container">
-            <h2>Experience</h2>
+            <div class="section-head" data-reveal>
+                <span class="kicker">02 — Experience</span>
+                <h2 class="section-title">Where I've worked</h2>
+            </div>
             <div class="timeline">
-                <div class="timeline-item left">
+                <div class="timeline-item" data-reveal>
                     <div class="timeline-content">
-                        <div class="date">June 2021 - June 2025</div>
-                        <h3>Private Tutor</h3>
-                        <h4>Remote</h4>
+                        <div class="date">Sept 2025 — Present</div>
+                        <h3>Teaching Assistant — Compilers</h3>
+                        <h4>Computer Science Department, University of Crete</h4>
                         <ul>
-                            <li>Provided one-on-one and group tutoring sessions teaching C, C++, Java and Python</li>
-                            <li>Enhanced students' coding proficiency and problem-solving skills</li>
+                            <li>Review and help students implement their compiler &amp; VM projects</li>
+                            <li>Run labs and classes explaining the ideas behind building a compiler/VM</li>
+                            <li>Wrote custom test suites for full coverage and to automate grading</li>
                         </ul>
                     </div>
                 </div>
-                <div class="timeline-item right">
+                <div class="timeline-item" data-reveal>
                     <div class="timeline-content">
-                        <div class="date">June 2023 - Sept. 2025</div>
+                        <div class="date">June 2023 — Sept 2025</div>
                         <h3>Research Assistant</h3>
-                        <h4>DiSCS - Institute of Computer Science @ FORTH</h4>
+                        <h4>DiSCS — Institute of Computer Science @ FORTH</h4>
                         <ul>
-                            <li>Developed a full-stack web application using Node.js, MongoDB, SQL and Docker for finding malicious websites using the Google SafeBrowsing API</li>
-                            <li>Implemented secure web services with Nginx and automated SSL/TLS with Let's Encrypt</li>
+                            <li>Built a full-stack web app (Node.js, MongoDB, SQL, Docker) for detecting malicious websites via the Google SafeBrowsing API</li>
+                            <li>Deployed secure web services with Nginx and automated SSL/TLS with Let's Encrypt</li>
                             <li>Created visualizations using world maps and clustering techniques</li>
                         </ul>
                     </div>
                 </div>
-                <div class="timeline-item left">
+                <div class="timeline-item" data-reveal>
                     <div class="timeline-content">
-                        <div class="date">Sept 2023 - Sept 2024</div>
-                        <h3>Teaching Assistant - Data Structures</h3>
-                        <h4>Computer Science Department - UOC</h4>
+                        <div class="date">Sept 2023 — Sept 2024</div>
+                        <h3>Teaching Assistant — Data Structures</h3>
+                        <h4>Computer Science Department, University of Crete</h4>
                         <ul>
-                            <li>Assisted in teaching by organizing assignments for 300 students</li>
-                            <li>Graded assignments and exams, providing constructive feedback</li>
+                            <li>Organized assignments for a course of 300 students</li>
+                            <li>Graded assignments and exams with constructive feedback</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item" data-reveal>
+                    <div class="timeline-content">
+                        <div class="date">June 2021 — Present</div>
+                        <h3>Private Tutor</h3>
+                        <h4>Remote</h4>
+                        <ul>
+                            <li>One-on-one and group tutoring in C, C++, Java and Python</li>
+                            <li>Strengthened students' coding proficiency and problem-solving skills</li>
                         </ul>
                     </div>
                 </div>
@@ -125,15 +175,19 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects">
+    <section id="projects" class="section-alt">
         <div class="container">
-            <h2>Projects</h2>
+            <div class="section-head" data-reveal>
+                <span class="kicker">03 — Projects</span>
+                <h2 class="section-title">Selected work</h2>
+                <p>A few things I've designed and built — from language tooling to automation.</p>
+            </div>
             <div class="projects-grid">
 
                 <!-- Alpha Compiler & VM - Priority: gold -->
-                <div class="project-card" data-priority="gold">
+                <div class="project-card" data-priority="gold" data-reveal>
                     <div class="project-card-img has-image">
-                        <img src="/assets/images/project-screenshots/compilers-image.png" alt="Alpha Compiler & VM" class="project-card-img-element">
+                        <img src="assets/images/project-screenshots/compilers-image.png" alt="Alpha Compiler & VM" class="project-card-img-element">
                     </div>
                     <div class="project-card-content">
                         <h3>Alpha Compiler & VM</h3>
@@ -142,29 +196,43 @@
                         </div>
                         <p>Developed a compiler with a shift-reduce parser for a dynamically-typed language, along with a virtual machine to run the generated code. Implemented garbage collection and stack manipulation.</p>
                         <div class="project-links">
-                <a href="https://github.com/orfeasxyz/hy340_compilers" target="_blank" class="project-icon-link github" title="View on GitHub">
-                    <img src="assets/images/github-icon.webp" alt="GitHub" class="project-link-icon">
-                </a></div>
+                <a href="https://github.com/orfeasxyz/hy340_compilers" target="_blank" rel="noopener" class="project-link-btn" title="View source on GitHub"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.02-1.49-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.71 1.22 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg><span>Code</span></a></div>
                     </div>
                 </div>
-                <!-- Alpha Compiler & VM - Priority: gold -->
-                <div class="project-card" data-priority="gold">
+                <!-- Java Lab Autograder - Priority: gold -->
+                <div class="project-card" data-priority="gold" data-reveal>
                     <div class="project-card-img has-image">
-                        <img src="/assets/images/project-screenshots/autograder-image.png" alt="Alpha Compiler & VM" class="project-card-img-element">
+                        <img src="assets/images/project-screenshots/autograder-image.png" alt="Java Lab Autograder" class="project-card-img-element">
                     </div>
                     <div class="project-card-content">
-                        <h3>Alpha Compiler & VM</h3>
+                        <h3>Java Lab Autograder</h3>
                         <div class="tech-stack">
-                            <span class="tech-tag">Java</span><span class="tech-tag">JavaParser</span><span class="tech-tag">AST</span><span class="tech-tag">Spring Boot</span><span class="tech-tag">Javascript</span><span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span class="tech-tag">Cross-Platform</span>
+                            <span class="tech-tag">Java</span><span class="tech-tag">JavaParser</span><span class="tech-tag">Spring Boot</span><span class="tech-tag">CSS</span><span class="tech-tag">Javascript</span><span class="tech-tag">HTML</span><span class="tech-tag">Cross-Platform</span>
                         </div>
-                        <p>This is my Thesis, a portable Spring Boot application that automatically evaluates student Java submissions by analyzing both code structure and functionality. It provides both a web interface and command-line mode for grading Java programming assignments against configurable requirements.</p>
-                        
+                        <p>A portable Spring Boot application that automatically evaluates student Java submissions by analyzing both code structure and functionality. It provides both a web interface and command-line mode all with configurable requirements.</p>
+                        <div class="project-links">
+                <a href="https://www.youtube.com/watch?v=qhV2bt_0f2I" target="_blank" rel="noopener" class="project-link-btn" title="Watch the demo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span>Demo</span></a></div>
+                    </div>
+                </div>
+                <!-- GRPD Statistics Website - Priority: silver -->
+                <div class="project-card" data-priority="silver" data-reveal>
+                    <div class="project-card-img has-image">
+                        <img src="assets/images/project-screenshots/police-stats-image.png" alt="GRPD Statistics Website" class="project-card-img-element">
+                    </div>
+                    <div class="project-card-content">
+                        <h3>GRPD Statistics Website</h3>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Java</span><span class="tech-tag">RESTful API</span><span class="tech-tag">Javascript</span><span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span class="tech-tag">SQL</span><span class="tech-tag">Chart.js</span>
+                        </div>
+                        <p>A website that enhances the visualization and comparison of official yearly statistics from the Greek Police, enabling users to analyze regional data over the years with informative graphs.</p>
+                        <div class="project-links">
+                <a href="https://www.youtube.com/watch?v=hijWotfeuvQ" target="_blank" rel="noopener" class="project-link-btn" title="Watch the demo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span>Demo</span></a></div>
                     </div>
                 </div>
                 <!-- Automated Wordle Solver - Priority: silver -->
-                <div class="project-card" data-priority="silver">
+                <div class="project-card" data-priority="silver" data-reveal>
                     <div class="project-card-img has-image">
-                        <img src="/assets/images/project-screenshots/worlde-image.png" alt="Automated Wordle Solver" class="project-card-img-element">
+                        <img src="assets/images/project-screenshots/worlde-image.png" alt="Automated Wordle Solver" class="project-card-img-element">
                     </div>
                     <div class="project-card-content">
                         <h3>Automated Wordle Solver</h3>
@@ -173,9 +241,7 @@
                         </div>
                         <p>Built an automation tool using Selenium WebDriver to interact with the NYTimes Wordle. Implemented algorithmic strategies and regex filtering to optimize word selection based on letter frequency.</p>
                         <div class="project-links">
-                <a href="https://github.com/mikegiannako/Wordle-Solver" target="_blank" class="project-icon-link github" title="View on GitHub">
-                    <img src="assets/images/github-icon.webp" alt="GitHub" class="project-link-icon">
-                </a></div>
+                <a href="https://github.com/mikegiannako/Wordle-Solver" target="_blank" rel="noopener" class="project-link-btn" title="View source on GitHub"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.02-1.49-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.71 1.22 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg><span>Code</span></a></div>
                     </div>
                 </div>
                 </div>
@@ -185,54 +251,35 @@
     <!-- Competitions Section -->
     <section id="competitions">
         <div class="container">
-            <h3 class="competitions-subtitle">Programming Contests</h3>
+            <div class="section-head" data-reveal>
+                <span class="kicker">04 — Competitions</span>
+                <h2 class="section-title">Competitive programming</h2>
+            </div>
+            <h3 class="competitions-subtitle" data-reveal>Programming Contests</h3>
             <div class="competitions-tiles">
-                <!-- Reply Challenge -->
-                <div class="competition-tile">
-                    <div class="competition-tile-front">
-                        <div class="competition-tile-icon">🏆</div>
-                        <h4>Reply Challenge</h4>
-                    </div>
-                    <div class="competition-tile-back">
-                        <h4>Reply Challenge Teen Edition</h4>
-                        <p>Global rank: <strong>71</strong> out of 1,150 teams (2022)</p>
-                    </div>
+                <div class="competition-tile" data-reveal>
+                    <span class="competition-icon">🏆</span>
+                    <div class="competition-rank">#71<span class="unit">/ 1,150</span></div>
+                    <h4>Reply Challenge</h4>
+                    <p>Teen Edition · global rank out of 1,150 teams · 2022</p>
                 </div>
-                
-                <!-- Google HashCode -->
-                <div class="competition-tile">
-                    <div class="competition-tile-front">
-                        <div class="competition-tile-icon">🌐</div>
-                        <h4>Google HashCode</h4>
-                    </div>
-                    <div class="competition-tile-back">
-                        <h4>Google HashCode</h4>
-                        <p>Team ranking: <strong>3490</strong> (2022)</p>
-                    </div>
+                <div class="competition-tile" data-reveal>
+                    <span class="competition-icon">🌐</span>
+                    <div class="competition-rank">3490</div>
+                    <h4>Google HashCode</h4>
+                    <p>Team ranking · 2022</p>
                 </div>
-                
-                <!-- Codeforces -->
-                <div class="competition-tile">
-                    <div class="competition-tile-front">
-                        <div class="competition-tile-icon">💻</div>
-                        <h4>Codeforces</h4>
-                    </div>
-                    <div class="competition-tile-back">
-                        <h4>Codeforces</h4>
-                        <p>Joined multiple <strong>Div. 3 and 4</strong> contests</p>
-                    </div>
+                <div class="competition-tile" data-reveal>
+                    <span class="competition-icon">💻</span>
+                    <div class="competition-rank">Div<span class="unit">3 / 4</span></div>
+                    <h4>Codeforces</h4>
+                    <p>Competed in multiple Div. 3 and 4 contests</p>
                 </div>
-                
-                <!-- Advent of Code -->
-                <div class="competition-tile">
-                    <div class="competition-tile-front">
-                        <div class="competition-tile-icon">🎄</div>
-                        <h4>Advent of Code</h4>
-                    </div>
-                    <div class="competition-tile-back">
-                        <h4>Advent of Code</h4>
-                        <p>Published solutions on GitHub with descriptive comments</p>
-                    </div>
+                <div class="competition-tile" data-reveal>
+                    <span class="competition-icon">🎄</span>
+                    <div class="competition-rank">AoC</div>
+                    <h4>Advent of Code</h4>
+                    <p>Solutions published on GitHub with descriptive comments</p>
                 </div>
             </div>
         </div>
@@ -241,23 +288,26 @@
     <!-- Education Section -->
     <section id="education">
         <div class="container">
-            <h2>Education</h2>
+            <div class="section-head" data-reveal>
+                <span class="kicker">05 — Education</span>
+                <h2 class="section-title">Education</h2>
+            </div>
             <div class="timeline">
-                <div class="timeline-item left">
+                <div class="timeline-item" data-reveal>
                     <div class="timeline-content">
-                        <div class="date">Sept 2025 - Present</div>
-                        <h3>Master of Science in Computer Science</h3>
-                        <h4>University of Crete, Heraklion, Crete</h4>
-                        <p>Currently pursuing advanced studies in Computer Science with focus on software engineering and programming languages.</p>
+                        <div class="date">Sept 2025 — Present</div>
+                        <h3>MSc in Computer Science</h3>
+                        <h4>University of Crete · Heraklion</h4>
+                        <p>Advanced study with a focus on software engineering and programming languages.</p>
                     </div>
                 </div>
-                <div class="timeline-item right">
+                <div class="timeline-item" data-reveal>
                     <div class="timeline-content">
-                        <div class="date">Sept 2020 - July 2025</div>
-                        <h3>Bachelor of Science in Computer Science</h3>
-                        <h4>University of Crete, Heraklion, Crete</h4>
-                        <p><strong>Graduated with GPA: 8.50/10</strong></p>
-                        <p>Specialized in software development, algorithm design, and compiler construction. Completed coursework in data structures, advanced programming paradigms, and system design along with others.</p>
+                        <div class="date">Sept 2020 — July 2025</div>
+                        <h3>BSc in Computer Science</h3>
+                        <h4>University of Crete · Heraklion</h4>
+                        <p><strong>Graduated with GPA 8.50 / 10 (Excellent)</strong></p>
+                        <p>Specialized in software development, algorithm design, and compiler construction, alongside data structures, advanced programming paradigms, and system design.</p>
                     </div>
                 </div>
             </div>
@@ -265,26 +315,30 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact">
+    <section id="contact" class="section-alt">
         <div class="container">
-            <h2>Contact Me</h2>
-            <div class="contact-form-container">
+            <div class="section-head" data-reveal>
+                <span class="kicker">06 — Contact</span>
+                <h2 class="section-title">Let's talk</h2>
+                <p>Have a project, a question, or an opportunity? Drop me a line.</p>
+            </div>
+            <div class="contact-form-container" data-reveal>
                 <form id="contact-form">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" id="name" name="name" required>
+                        <input type="text" id="name" name="name" placeholder="Your name" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
+                        <input type="email" id="email" name="email" placeholder="you@example.com" required>
                     </div>
                     <div class="form-group">
                         <label for="subject">Subject</label>
-                        <input type="text" id="subject" name="subject" required>
+                        <input type="text" id="subject" name="subject" placeholder="What's this about?" required>
                     </div>
                     <div class="form-group">
                         <label for="message">Message</label>
-                        <textarea id="message" name="message" rows="5" required></textarea>
+                        <textarea id="message" name="message" rows="5" placeholder="Your message…" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-submit">Send Message</button>
                 </form>
@@ -295,7 +349,7 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2025 Michael Jason Giannakopoulos. All rights reserved.</p>
+            <p>© 2025 Michael Jason Giannakopoulos — built &amp; designed from scratch.</p>
         </div>
     </footer>
 

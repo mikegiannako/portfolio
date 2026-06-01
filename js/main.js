@@ -1,4 +1,8 @@
-// Main navigation functionality
+// ============================================================
+// main.js — shared across all pages
+// Navigation · contact form · scroll-reveal
+// ============================================================
+
 class Navigation {
     constructor() {
         this.mobileMenuBtn = document.querySelector('.mobile-menu-btn');
@@ -6,248 +10,192 @@ class Navigation {
         this.navLinks = document.querySelector('.nav-links');
         this.blogLink = document.querySelector('.blog-link');
         this.isOpen = false;
-        
         this.init();
     }
-    
+
     init() {
         if (this.mobileMenuBtn && this.navDropdown) {
             this.mobileMenuBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 this.toggleMenu();
             });
-            
-            // Close menu when clicking outside
+
             document.addEventListener('click', (e) => {
                 if (!this.navDropdown.contains(e.target) && !this.mobileMenuBtn.contains(e.target)) {
                     this.closeMenu();
                 }
             });
-            
-            // Close menu when pressing escape
+
             document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && this.isOpen) {
-                    this.closeMenu();
-                }
-            });
-            
-            // Handle window resize
-            window.addEventListener('resize', () => {
-                if (window.innerWidth > 768 && this.isOpen) {
-                    this.closeMenu();
-                }
+                if (e.key === 'Escape' && this.isOpen) this.closeMenu();
             });
         }
-        
+
         this.highlightCurrentPage();
         this.setupNavLinkHandlers();
     }
-    
+
     toggleMenu() {
-        if (this.isOpen) {
-            this.closeMenu();
-        } else {
-            this.openMenu();
-        }
+        this.isOpen ? this.closeMenu() : this.openMenu();
     }
-    
+
     openMenu() {
         this.isOpen = true;
         this.mobileMenuBtn.classList.add('active');
         this.navDropdown.classList.add('active');
-        
-        // Add stagger animation to nav links
+
         const links = this.navLinks.querySelectorAll('a');
         links.forEach((link, index) => {
             link.style.opacity = '0';
-            link.style.transform = 'translateX(-20px)';
+            link.style.transform = 'translateX(-12px)';
             setTimeout(() => {
-                link.style.transition = 'all 0.3s ease';
+                link.style.transition = 'all 0.3s cubic-bezier(0.22,1,0.36,1)';
                 link.style.opacity = '1';
                 link.style.transform = 'translateX(0)';
-            }, index * 50);
+            }, index * 45);
         });
     }
-    
+
     closeMenu() {
         this.isOpen = false;
         this.mobileMenuBtn.classList.remove('active');
         this.navDropdown.classList.remove('active');
-        
-        // Reset link animations
-        const links = this.navLinks.querySelectorAll('a');
-        links.forEach(link => {
+
+        this.navLinks.querySelectorAll('a').forEach(link => {
             link.style.transition = '';
             link.style.opacity = '';
             link.style.transform = '';
         });
     }
-    
+
     highlightCurrentPage() {
-        const currentPage = window.location.pathname;
-        
         if (this.blogLink) {
-            if (currentPage.includes('blog.html')) {
-                this.blogLink.classList.add('active');
-            } else {
-                this.blogLink.classList.remove('active');
-            }
+            this.blogLink.classList.toggle('active', window.location.pathname.includes('blog.html'));
         }
     }
-    
+
     setupNavLinkHandlers() {
-        // Handle navigation links
         if (this.navLinks) {
             this.navLinks.addEventListener('click', (e) => {
-                if (e.target.tagName === 'A') {
-                    this.closeMenu();
-                }
+                if (e.target.closest('a')) this.closeMenu();
             });
         }
     }
 }
 
-// Contact form handler
+// Theme toggle (initial theme is applied pre-paint by an inline head script)
+class ThemeToggle {
+    constructor() {
+        this.btn = document.querySelector('.theme-toggle');
+        if (!this.btn) return;
+        this.btn.addEventListener('click', () => {
+            const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            try { localStorage.setItem('theme', next); } catch (e) {}
+        });
+    }
+}
+
+// Reveal-on-scroll for [data-reveal] elements, with light per-group stagger
+class RevealObserver {
+    constructor() {
+        const els = document.querySelectorAll('[data-reveal]');
+        if (!els.length) return;
+
+        if (!('IntersectionObserver' in window)) {
+            els.forEach(el => el.classList.add('in-view'));
+            return;
+        }
+
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                const el = entry.target;
+                const siblings = Array.from(el.parentElement.querySelectorAll(':scope > [data-reveal]'));
+                const index = Math.max(0, siblings.indexOf(el));
+                el.style.transitionDelay = `${Math.min(index * 80, 400)}ms`;
+                el.classList.add('in-view');
+                obs.unobserve(el);
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+        els.forEach(el => observer.observe(el));
+    }
+}
+
+// Contact form (front-end validation + notification)
 class ContactForm {
     constructor() {
         this.form = document.getElementById('contact-form');
-        this.init();
+        if (this.form) this.form.addEventListener('submit', (e) => this.handleSubmit(e));
     }
-    
-    init() {
-        if (this.form) {
-            this.form.addEventListener('submit', (e) => this.handleSubmit(e));
-        }
-    }
-    
+
     handleSubmit(e) {
         e.preventDefault();
-        
-        // Collect form data
-        const formData = {
+        const data = {
             name: document.getElementById('name').value,
             email: document.getElementById('email').value,
             subject: document.getElementById('subject').value,
             message: document.getElementById('message').value
         };
-        
-        // Validate form
-        if (!this.validateForm(formData)) {
-            return;
-        }
-        
-        // Here you would typically send the data to a server
-        // For now, we'll just log it and show a success message
-        console.log('Form submission:', formData);
-        
-        this.showSuccessMessage();
+        if (!this.validate(data)) return;
+        console.log('Form submission:', data);
+        this.notify('Thanks for reaching out — I\'ll get back to you soon.', 'success');
         this.form.reset();
     }
-    
-    validateForm(data) {
-        if (!data.name.trim()) {
-            this.showError('Please enter your name');
-            return false;
-        }
-        
-        if (!data.email.trim() || !this.isValidEmail(data.email)) {
-            this.showError('Please enter a valid email address');
-            return false;
-        }
-        
-        if (!data.subject.trim()) {
-            this.showError('Please enter a subject');
-            return false;
-        }
-        
-        if (!data.message.trim()) {
-            this.showError('Please enter a message');
-            return false;
-        }
-        
+
+    validate(d) {
+        if (!d.name.trim()) return this.fail('Please enter your name');
+        if (!d.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)) return this.fail('Please enter a valid email address');
+        if (!d.subject.trim()) return this.fail('Please enter a subject');
+        if (!d.message.trim()) return this.fail('Please enter a message');
         return true;
     }
-    
-    isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-    
-    showSuccessMessage() {
-        // Create a nice success notification instead of alert
-        this.showNotification('Thank you for your message! I will get back to you soon.', 'success');
-    }
-    
-    showError(message) {
-        this.showNotification(message, 'error');
-    }
-    
-    showNotification(message, type) {
-        // Create notification element
-        const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.textContent = message;
-        
-        // Style the notification
-        Object.assign(notification.style, {
+
+    fail(msg) { this.notify(msg, 'error'); return false; }
+
+    notify(message, type) {
+        const n = document.createElement('div');
+        n.className = `notification notification-${type}`;
+        n.textContent = message;
+        Object.assign(n.style, {
             position: 'fixed',
-            top: '20px',
-            right: '20px',
-            padding: '1rem 1.5rem',
-            borderRadius: '5px',
-            color: 'white',
+            top: '1.5rem',
+            right: '1.5rem',
+            maxWidth: '320px',
+            padding: '0.9rem 1.2rem',
+            borderRadius: '10px',
+            color: '#0a0b0e',
             fontWeight: '500',
             zIndex: '1000',
-            transform: 'translateX(100%)',
-            transition: 'transform 0.3s ease',
-            backgroundColor: type === 'success' ? '#27ae60' : '#e74c3c'
+            transform: 'translateX(120%)',
+            transition: 'transform 0.4s cubic-bezier(0.22,1,0.36,1)',
+            boxShadow: '0 16px 40px rgba(0,0,0,0.4)',
+            backgroundColor: type === 'success' ? '#7fd1a8' : '#ef9a9e'
         });
-        
-        document.body.appendChild(notification);
-        
-        // Animate in
+        document.body.appendChild(n);
+        requestAnimationFrame(() => { n.style.transform = 'translateX(0)'; });
         setTimeout(() => {
-            notification.style.transform = 'translateX(0)';
-        }, 100);
-        
-        // Remove after 5 seconds
-        setTimeout(() => {
-            notification.style.transform = 'translateX(100%)';
-            setTimeout(() => {
-                document.body.removeChild(notification);
-            }, 300);
-        }, 5000);
+            n.style.transform = 'translateX(120%)';
+            setTimeout(() => n.remove(), 400);
+        }, 4500);
     }
 }
 
-// Utility functions
+// Shared utilities
 const utils = {
-    // Smooth scroll to element
-    smoothScrollTo(element, offset = 70) {
-        if (element) {
-            window.scrollTo({
-                top: element.offsetTop - offset,
-                behavior: 'smooth'
-            });
-        }
-    },
-    
-    // Debounce function
     debounce(func, wait) {
         let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
+        return function (...args) {
             clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
+            timeout = setTimeout(() => func.apply(this, args), wait);
         };
     }
 };
 
-// Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     new Navigation();
+    new ThemeToggle();
+    new RevealObserver();
     new ContactForm();
 });

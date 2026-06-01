@@ -247,20 +247,19 @@ class BlogBuilder {
 
         const template = fs.readFileSync(templatePath, 'utf-8');
         
-        const postsHtml = this.posts.length > 0 
-            ? this.posts.map(post => `
-                <article class="blog-post-card published">
-                    <div class="blog-post-image">
-                        <span>${post.icon || '📝'}</span>
-                    </div>
-                    <div class="blog-post-content">
-                        <div class="blog-post-meta">${this.formatDate(post.date)} • ${post.category}</div>
-                        <h3 class="blog-post-title">
-                            <a href="posts/${post.slug}.html">${post.title}</a>
-                        </h3>
+        const postsHtml = this.posts.length > 0
+            ? this.posts.map((post, i) => `
+                <article class="blog-post-card published" data-reveal>
+                    <a class="blog-post-link" href="posts/${post.slug}.html">
+                        <div class="blog-post-top">
+                            <span class="blog-post-index">0${i + 1}</span>
+                            <span class="blog-post-glyph">${post.icon || '📝'}</span>
+                        </div>
+                        <div class="blog-post-meta">${this.formatDate(post.date)} <span class="sep">·</span> ${post.category}</div>
+                        <h3 class="blog-post-title">${post.title}</h3>
                         <p class="blog-post-excerpt">${post.excerpt}</p>
-                        <a href="posts/${post.slug}.html" class="read-more">Read More →</a>
-                    </div>
+                        <span class="read-more">Read post <span class="arrow">→</span></span>
+                    </a>
                 </article>
             `).join('')
             : '<div class="no-posts"><p>No blog posts yet. Check back soon!</p></div>';
@@ -309,24 +308,23 @@ class BlogBuilder {
             `<span class="tech-tag">${tech}</span>`
         ).join('');
 
-        // Generate icon links
+        // Generate link buttons (labeled pills with crisp inline SVG icons)
+        const githubIcon = '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.02-1.49-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.71 1.22 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>';
+        const playIcon = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+
         let linksHtml = '';
         if (project.github) {
             linksHtml += `
-                <a href="${project.github}" target="_blank" class="project-icon-link github" title="View on GitHub">
-                    <img src="assets/images/github-icon.webp" alt="GitHub" class="project-link-icon">
-                </a>`;
+                <a href="${project.github}" target="_blank" rel="noopener" class="project-link-btn" title="View source on GitHub">${githubIcon}<span>Code</span></a>`;
         }
         if (project.link && project.link !== project.github) {
             linksHtml += `
-                <a href="${project.link}" target="_blank" class="project-icon-link demo" title="View Live Demo">
-                    <img src="assets/images/demo-icon.png" alt="Demo" class="project-link-icon">
-                </a>`;
+                <a href="${project.link}" target="_blank" rel="noopener" class="project-link-btn" title="Watch the demo">${playIcon}<span>Demo</span></a>`;
         }
 
         return `
                 <!-- ${project.title} - Priority: ${project.priority} -->
-                <div class="project-card" data-priority="${project.priority}">
+                <div class="project-card" data-priority="${project.priority}" data-reveal>
                     <div class="project-card-img ${project.image ? 'has-image' : 'has-icon'}">
                         ${mediaElement}
                     </div>
