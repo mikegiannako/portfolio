@@ -4,5 +4,6 @@
   "image": "assets/images/project-screenshots/compilers-image.png",
   "priority": "platinum",
   "technologies": ["C", "C++", "Yacc", "Bison", "Assembly"],
-  "github": "https://github.com/mikegiannako/alpha-compiler"
+  "github": "https://github.com/mikegiannako/alpha-compiler",
+  "link": "alpha_page/"
 }
