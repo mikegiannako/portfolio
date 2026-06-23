@@ -4,5 +4,5 @@
   "image": "assets/images/project-screenshots/compilers-image.png",
   "priority": "gold",
   "technologies": ["C", "C++", "Yacc", "Bison", "Assembly"],
-  "github": "https://github.com/orfeasxyz/hy340_compilers"
+  "github": "https://github.com/mikegiannako/alpha-compiler"
 }
