@@ -43,6 +43,18 @@ self.addEventListener('message', async (e) => {
   }
   if (m.type !== 'run') return;
 
+  // ── JSPI check (required by EM_ASYNC_JS / debugger suspension) ────────────
+  if (typeof WebAssembly?.Suspending !== 'function') {
+    self.postMessage({
+      type: 'error',
+      message:
+        'The VM requires WebAssembly JSPI (JS Promise Integration), ' +
+        'which is not yet supported in Firefox or Safari.\n' +
+        'Please use Chrome 118+ or another Chromium-based browser to run programs.',
+    });
+    return;
+  }
+
   // ── Run ───────────────────────────────────────────────────────────────────
   const { bin, stdin, breakpoints = [] } = m;
 

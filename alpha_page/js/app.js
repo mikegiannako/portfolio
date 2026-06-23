@@ -772,6 +772,20 @@ function wire() {
 }
 
 async function main() {
+  if (typeof WebAssembly?.Suspending !== 'function') {
+    const banner = document.createElement('div');
+    banner.className = 'compat-banner';
+    banner.innerHTML =
+      '<span class="compat-icon">⚠</span>' +
+      '<span><strong>Firefox / Safari not fully supported</strong> — ' +
+      'The VM requires <strong>WebAssembly JSPI</strong>, which is only available in ' +
+      '<strong>Chrome 118+</strong> or other Chromium-based browsers. ' +
+      'Compilation (Symbol Table, Quads, Instructions tabs) works in all browsers; ' +
+      '<em>running</em> programs does not.</span>';
+    document.querySelector('.topbar')?.insertAdjacentElement('afterend', banner);
+    els.runBtn.title = 'VM not supported in this browser — use Chrome';
+  }
+
   wire();
   await loadManifest();
 

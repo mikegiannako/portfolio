@@ -190,6 +190,23 @@ select { max-width: 260px; cursor: pointer; }
 html[data-theme="dark"] .topbar-theme-toggle .icon-moon { display: none; }
 html[data-theme="dark"] .topbar-theme-toggle .icon-sun { display: block; }
 
+/* ---------- browser compat banner ---------- */
+.compat-banner {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 9px 16px;
+  background: rgba(226, 162, 59, 0.10);
+  border-bottom: 1px solid rgba(226, 162, 59, 0.30);
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  flex-shrink: 0;
+}
+.compat-banner .compat-icon { color: var(--warn); flex-shrink: 0; font-size: 15px; }
+.compat-banner strong { color: var(--text); font-weight: 600; }
+.compat-banner em { font-style: italic; }
+
 /* ---------- main layout ---------- */
 .layout {
   display: flex;
