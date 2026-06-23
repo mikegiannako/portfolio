@@ -1,0 +1,8 @@
+{
+  "title": "Sonic the Hedgehog",
+  "description": "Co-developed a Green Hill-style Sonic fan game in C++20 for a game development course. Features tile-based rendering with parallax scrolling, slope-aware collision, full Sonic movement physics, ring scatter mechanics, and a complete HUD and menu flow.",
+  "image": "assets/images/project-screenshots/sonic-image.png",
+  "priority": "platinum",
+  "technologies": ["C++", "SDL3", "Box2D", "CMake"],
+  "github": "https://github.com/TerryToupi/SonicTheHedgehog"
+}
