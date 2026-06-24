@@ -11,6 +11,7 @@ on:
       - '*.html'                 # Trigger on HTML changes
       - 'build-blog.js'          # Trigger on build script changes
       - 'package*.json'          # Trigger on dependency changes
+      - 'alpha_page/**'          # Trigger on Alpha Compiler & VM playground changes
   workflow_dispatch:             # Allow manual triggering
 
 # Required permissions for GitHub Pages

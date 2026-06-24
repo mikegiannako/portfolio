@@ -121,8 +121,10 @@ function setDebuggerPaused(on) {
     show(els.siSplitter, false);
     show(els.stackToggleBtn, false);
     els.secStack?.classList.remove('si-collapsed');
-    lastStack = null;
     stackUserHidden = false;
+    // NB: lastStack is intentionally NOT cleared here — Continue/Step go through
+    // this path, and we need the previous snapshot as the diff baseline so the
+    // next pause can highlight what changed. It's reset per run in run().
   }
 }
 
@@ -238,6 +240,7 @@ async function run() {
   clearResults();
   setStatus('busy', 'Compiling…');
   editor.clearCurrentLine();
+  lastStack = null; // fresh diff baseline for change-highlighting this run
 
   const source = editor.getValue();
   const flags = currentFlags();
@@ -359,7 +362,25 @@ function refCountLabel(rc) {
   return ` <span class="si-rc">· <span class="si-rc-long">RefCount</span><span class="si-rc-short">RF</span> ${rc}</span>`;
 }
 
-function renderCellVal(c) {
+// Did a cell change vs the previous pause? (deep, by serialized value)
+function cellChanged(cur, old) {
+  return old !== undefined && old !== null && JSON.stringify(cur) !== JSON.stringify(old);
+}
+// Stable token for a table key — builds per-table paths (to remember which tables
+// are expanded) and matches an entry against the previous snapshot.
+function keyToken(k) {
+  return k ? `${k.t}:${k.v ?? ''}` : '?';
+}
+function findPrevEntry(pc, kt) {
+  if (!pc || !pc.e) return undefined;
+  for (const [pk, pv] of pc.e) if (keyToken(pk) === kt) return pv;
+  return undefined;
+}
+
+// Render one cell. `pc` is the matching cell from the previous pause (for change
+// highlighting) and `path` is a stable id used to keep a table expanded across
+// re-renders.
+function renderCellVal(c, pc, path) {
   if (!c || c.t === 'undef') return '<span class="si-nil">undefined</span>';
   if (c.t === 'nil') return '<span class="si-nil">nil</span>';
   if (c.t === 'table') {
@@ -373,11 +394,16 @@ function renderCellVal(c) {
     const meta = refCountLabel(c.rc);
     // Collapsible: click to expand. Nested tables nest their own <details>.
     if (c.e && c.e.length > 0) {
-      const rows = c.e.map(([k, v]) =>
-        `<tr><td>${renderCellVal(k)}</td><td>${renderCellVal(v)}</td></tr>`
-      ).join('');
+      const rows = c.e.map(([k, v]) => {
+        const kt = keyToken(k);
+        const pv = findPrevEntry(pc, kt);
+        // Highlight a changed value, or a key newly added to an existing table.
+        const isNewKey = pc && pc.e && pv === undefined;
+        const cls = (cellChanged(v, pv) || isNewKey) ? ' class="si-changed"' : '';
+        return `<tr${cls}><td>${renderCellVal(k, null, '')}</td><td>${renderCellVal(v, pv, path + '/' + kt)}</td></tr>`;
+      }).join('');
       const more = count > c.e.length ? `<tr><td colspan="2" class="si-nil">… ${count - c.e.length} more</td></tr>` : '';
-      return `<details><summary><span class="si-nil">table [${count}]</span>${meta}</summary>` +
+      return `<details data-si-path="${encodeURIComponent(path)}"><summary><span class="si-nil">table [${count}]</span>${meta}</summary>` +
              `<table class="si-entries"><thead><tr><th>key</th><th>value</th></tr></thead><tbody>${rows}${more}</tbody></table></details>`;
     }
     return `<span class="si-nil">table [${count}]</span>${meta}`;
@@ -390,9 +416,16 @@ function renderStack(snapStr, prevSnapStr) {
   try { snap = JSON.parse(snapStr); } catch { return; }
   try { prev = prevSnapStr ? JSON.parse(prevSnapStr) : null; } catch { prev = null; }
 
-  const cellChanged = (cur, old) => old != null && JSON.stringify(cur) !== JSON.stringify(old);
+  // Remember which tables are expanded (by stable path) and the scroll position,
+  // so a step/continue re-render keeps the user's place instead of resetting.
+  const openPaths = new Set(
+    [...els.secStack.querySelectorAll('details[data-si-path]')]
+      .filter((d) => d.open)
+      .map((d) => d.dataset.siPath)
+  );
+  const scrollTop = els.secStack.scrollTop;
 
-  const renderSection = (cells, prevCells, label) => {
+  const renderSection = (cells, prevCells, label, prefix) => {
     if (!cells || cells.length === 0) return '';
     // Hide trailing `undefined` cells (e.g. declared-but-unused globals/locals).
     let end = cells.length;
@@ -401,10 +434,10 @@ function renderStack(snapStr, prevSnapStr) {
     let h = `<div class="si-sec">${label}</div><table class="si-table">`;
     for (let i = 0; i < end; i++) {
       const c = cells[i];
-      const changed = cellChanged(c, prevCells ? prevCells[i] : undefined);
-      const rowCls = changed ? ' class="si-changed"' : '';
+      const pc = prevCells ? prevCells[i] : undefined;
+      const rowCls = cellChanged(c, pc) ? ' class="si-changed"' : '';
       const typeStr = escapeHtml(c?.t || '?');
-      h += `<tr${rowCls}><td class="si-idx">${i}</td><td class="si-type">${typeStr}</td><td>${renderCellVal(c)}</td></tr>`;
+      h += `<tr${rowCls}><td class="si-idx">${i}</td><td class="si-type">${typeStr}</td><td>${renderCellVal(c, pc, prefix + i)}</td></tr>`;
     }
     return h + '</table>';
   };
@@ -412,11 +445,18 @@ function renderStack(snapStr, prevSnapStr) {
   let html = '<div class="si-title">Stack Inspector</div>';
   html += `<div class="si-fn">${snap.fn ? escapeHtml(snap.fn) + '()' : '<em style="color:var(--muted)">global</em>'}</div>`;
   html += `<div class="si-loc">pc=${snap.pc} · line=${snap.line}</div>`;
-  html += renderSection(snap.formals, prev?.formals, 'Formals');
-  html += renderSection(snap.locals,  prev?.locals,  'Locals');
-  html += renderSection(snap.globals, prev?.globals,  'Globals');
+  html += renderSection(snap.formals, prev?.formals, 'Formals', 'f');
+  html += renderSection(snap.locals,  prev?.locals,  'Locals',  'l');
+  html += renderSection(snap.globals, prev?.globals, 'Globals', 'g');
 
   els.secStack.innerHTML = html;
+
+  // Restore expand state + scroll after the re-render.
+  for (const d of els.secStack.querySelectorAll('details[data-si-path]')) {
+    if (openPaths.has(d.dataset.siPath)) d.open = true;
+  }
+  els.secStack.scrollTop = scrollTop;
+
   if (!stackUserHidden) {
     show(els.secStack, true);
     show(els.siSplitter, true);
