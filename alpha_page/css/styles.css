@@ -410,11 +410,12 @@ pre.ansi, .ansi {
 .right-body { display: flex; flex-direction: row; flex: 1; min-height: 0; min-width: 0; }
 
 .stack-inspector {
-  width: 270px;
+  width: 340px;
   flex-shrink: 0;
   border-left: 1px solid var(--border);
   overflow-y: auto;
   overflow-x: hidden;
+  container-type: inline-size; /* enables the @container query below (RefCount → RF) */
   padding: 10px 10px 16px;
   background: var(--bg-2);
   font-family: var(--font-body);
@@ -534,6 +535,17 @@ pre.ansi, .ansi {
 
 .hidden { display: none !important; }
 
+/* RefCount shown on a table's <summary>: "RefCount N" → "RF N" when the sidebar
+   is narrow (container-type is set on .stack-inspector above). */
+.stack-inspector .si-rc { font-size: 0.85em; white-space: nowrap; color: var(--accent-2); font-family: var(--code-font); font-style: normal; }
+.stack-inspector .si-rc-short { display: none; }
+/* Placeholder for self/back-referencing tables (table::self / table::cycle). */
+.stack-inspector .si-ref { color: var(--accent); font-family: var(--code-font); font-style: italic; }
+@container (max-width: 230px) {
+  .stack-inspector .si-rc-long  { display: none; }
+  .stack-inspector .si-rc-short { display: inline; }
+}
+
 /* ---------- disclaimer modal ---------- */
 .modal-overlay {
   position: fixed;
@@ -602,3 +614,4 @@ pre.ansi, .ansi {
   select { max-width: 150px; }
   .back-link { display: none; }
 }
+

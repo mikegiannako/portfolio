@@ -352,19 +352,35 @@ function runInWorker(binary, stdin, warnings) {
 // ---------------------------------------------------------------------------
 // Stack inspector
 // ---------------------------------------------------------------------------
+// Reference count shown as "RefCount N", abbreviated to "RF N" when the sidebar
+// is too narrow (handled by a CSS container query on .stack-inspector).
+function refCountLabel(rc) {
+  if (rc == null) return '';
+  return ` <span class="si-rc">· <span class="si-rc-long">RefCount</span><span class="si-rc-short">RF</span> ${rc}</span>`;
+}
+
 function renderCellVal(c) {
   if (!c || c.t === 'undef') return '<span class="si-nil">undefined</span>';
   if (c.t === 'nil') return '<span class="si-nil">nil</span>';
   if (c.t === 'table') {
+    // Back-reference to a table shown higher up: render a placeholder instead of
+    // expanding forever. Mirrors the VM's own `table::self` (VMMemCell_ToString).
+    if (c.ref) {
+      const label = c.ref === 'self' ? 'table::self' : 'table::cycle';
+      return `<span class="si-ref" title="circular reference — this table is shown higher up">${label}</span>`;
+    }
     const count = c.v ?? 0;
+    const meta = refCountLabel(c.rc);
+    // Collapsible: click to expand. Nested tables nest their own <details>.
     if (c.e && c.e.length > 0) {
       const rows = c.e.map(([k, v]) =>
         `<tr><td>${renderCellVal(k)}</td><td>${renderCellVal(v)}</td></tr>`
       ).join('');
       const more = count > c.e.length ? `<tr><td colspan="2" class="si-nil">… ${count - c.e.length} more</td></tr>` : '';
-      return `<details><summary class="si-nil">table [${count}]</summary><table class="si-entries"><thead><tr><th>key</th><th>value</th></tr></thead><tbody>${rows}${more}</tbody></table></details>`;
+      return `<details><summary><span class="si-nil">table [${count}]</span>${meta}</summary>` +
+             `<table class="si-entries"><thead><tr><th>key</th><th>value</th></tr></thead><tbody>${rows}${more}</tbody></table></details>`;
     }
-    return `<span class="si-nil">table [${count}]</span>`;
+    return `<span class="si-nil">table [${count}]</span>${meta}`;
   }
   return `<span class="si-val">${escapeHtml(String(c.v))}</span>`;
 }
@@ -378,8 +394,12 @@ function renderStack(snapStr, prevSnapStr) {
 
   const renderSection = (cells, prevCells, label) => {
     if (!cells || cells.length === 0) return '';
+    // Hide trailing `undefined` cells (e.g. declared-but-unused globals/locals).
+    let end = cells.length;
+    while (end > 0 && (!cells[end - 1] || cells[end - 1].t === 'undef')) end--;
+    if (end === 0) return '';
     let h = `<div class="si-sec">${label}</div><table class="si-table">`;
-    for (let i = 0; i < cells.length; i++) {
+    for (let i = 0; i < end; i++) {
       const c = cells[i];
       const changed = cellChanged(c, prevCells ? prevCells[i] : undefined);
       const rowCls = changed ? ' class="si-changed"' : '';
@@ -518,6 +538,10 @@ async function loadManifest() {
 function loadExample(id) {
   const ex = manifest.examples.find((e) => e.id === id);
   if (!ex) return;
+  // Switching source: stop any running/paused VM and drop breakpoints (they are
+  // keyed by line number and would otherwise carry over to unrelated lines).
+  cleanupWorker();
+  editor.clearBreakpoints();
   editor.setValue(ex.source);
   els.stdin.value = ex.stdin || '';
   clearResults();
@@ -665,7 +689,7 @@ function applyFontSize(px) {
 // Stack inspector drag-resize
 // ---------------------------------------------------------------------------
 const STACK_W_KEY = 'alpha-stack-w';
-const STACK_DEFAULT_W = 270;
+const STACK_DEFAULT_W = 340;
 function initStackSplitter() {
   const splitter = els.siSplitter;
   const inspector = els.secStack;
@@ -772,20 +796,6 @@ function wire() {
 }
 
 async function main() {
-  if (typeof WebAssembly?.Suspending !== 'function') {
-    const banner = document.createElement('div');
-    banner.className = 'compat-banner';
-    banner.innerHTML =
-      '<span class="compat-icon">⚠</span>' +
-      '<span><strong>Firefox / Safari not fully supported</strong> — ' +
-      'The VM requires <strong>WebAssembly JSPI</strong>, which is only available in ' +
-      '<strong>Chrome 118+</strong> or other Chromium-based browsers. ' +
-      'Compilation (Symbol Table, Quads, Instructions tabs) works in all browsers; ' +
-      '<em>running</em> programs does not.</span>';
-    document.querySelector('.topbar')?.insertAdjacentElement('afterend', banner);
-    els.runBtn.title = 'VM not supported in this browser — use Chrome';
-  }
-
   wire();
   await loadManifest();
 
