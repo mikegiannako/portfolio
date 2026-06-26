@@ -113,9 +113,18 @@ class RevealObserver {
                 const el = entry.target;
                 const siblings = Array.from(el.parentElement.querySelectorAll(':scope > [data-reveal]'));
                 const index = Math.max(0, siblings.indexOf(el));
-                el.style.transitionDelay = `${Math.min(index * 80, 400)}ms`;
+                const delay = Math.min(index * 80, 400);
+                el.style.transitionDelay = `${delay}ms`;
                 el.classList.add('in-view');
                 obs.unobserve(el);
+                // Once the reveal finishes, clear the reveal-only inline delay so it
+                // doesn't also delay later hover transitions (this was making cards
+                // lag behind their image zoom). Each component's own CSS transition
+                // (e.g. .project-card) then governs hover timing.
+                el.addEventListener('transitionend', () => {
+                    el.style.transitionDelay = '';
+                    el.style.willChange = 'auto';
+                }, { once: true });
             });
         }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
 
