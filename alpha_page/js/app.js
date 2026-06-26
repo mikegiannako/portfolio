@@ -851,3 +851,27 @@ async function main() {
 }
 
 main();
+
+// Fetch live star count for the GitHub star button.
+(function () {
+  const countEl = document.getElementById('gh-star-count');
+  if (!countEl) return;
+  const CACHE_KEY = 'gh_star_alpha_compiler';
+  const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+  try {
+    const cached = JSON.parse(sessionStorage.getItem(CACHE_KEY) || 'null');
+    if (cached && Date.now() - cached.ts < CACHE_TTL) {
+      countEl.textContent = cached.count.toLocaleString();
+      return;
+    }
+  } catch (_) {}
+  fetch('https://api.github.com/repos/mikegiannako/alpha-compiler')
+    .then((r) => r.ok ? r.json() : null)
+    .then((data) => {
+      if (!data) return;
+      const count = data.stargazers_count;
+      countEl.textContent = count.toLocaleString();
+      try { sessionStorage.setItem(CACHE_KEY, JSON.stringify({ count, ts: Date.now() })); } catch (_) {}
+    })
+    .catch(() => {});
+}());

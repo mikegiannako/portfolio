@@ -28,6 +28,17 @@
     <div class="brand">Alpha<span>Compiler &amp; VM</span></div>
 
     <div class="controls">
+      <a id="gh-star-btn" class="gh-star-btn"
+         href="https://github.com/mikegiannako/alpha-compiler"
+         target="_blank" rel="noopener noreferrer"
+         title="Star mikegiannako/alpha-compiler on GitHub">
+        <svg class="gh-star-icon" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true">
+          <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/>
+        </svg>
+        <span>Star</span>
+        <span class="gh-star-count" id="gh-star-count"></span>
+      </a>
+
       <label class="select-wrap">
         <span>Example</span>
         <select id="example-select"></select>
@@ -63,13 +74,6 @@
         <label><input type="radio" name="mode" value="compile" /> <span>Compile only</span></label>
         <label><input type="radio" name="mode" value="run" checked /> <span>Compile &amp; Run</span></label>
       </div>
-
-      <iframe
-        src="https://ghbtns.com/github-btn.html?user=mikegiannako&repo=alpha-compiler&type=star&count=true&size=large"
-        frameborder="0" scrolling="0" width="160" height="30"
-        title="Star mikegiannako/alpha-compiler on GitHub"
-        style="vertical-align:middle;flex-shrink:0;border-radius:6px;overflow:hidden;"
-      ></iframe>
 
       <button id="theme-toggle-btn" class="topbar-theme-toggle" aria-label="Toggle theme" title="Toggle light/dark mode">
         <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>

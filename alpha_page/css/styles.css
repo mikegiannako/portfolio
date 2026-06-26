@@ -190,6 +190,38 @@ select { max-width: 260px; cursor: pointer; }
 html[data-theme="dark"] .topbar-theme-toggle .icon-moon { display: none; }
 html[data-theme="dark"] .topbar-theme-toggle .icon-sun { display: block; }
 
+/* ---------- GitHub star button ---------- */
+.gh-star-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  background: var(--bg-3);
+  color: var(--text-dim);
+  border: 1px solid var(--border-2);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: color .15s, border-color .15s, background .15s;
+}
+.gh-star-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--bg-2); }
+.gh-star-icon { flex-shrink: 0; opacity: .75; }
+.gh-star-btn:hover .gh-star-icon { opacity: 1; }
+.gh-star-count:not(:empty) {
+  padding: 1px 6px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+html[data-theme="dark"] .gh-star-count:not(:empty) { background: var(--panel); }
+
 /* ---------- browser compat banner ---------- */
 .compat-banner {
   display: flex;
