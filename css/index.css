@@ -368,7 +368,6 @@
 
 /* tier indicator — a single shadowed colored dot, top-left */
 .project-card[data-priority] { --tier: var(--tier-bronze); }
-.project-card[data-priority="platinum"] { --tier: var(--tier-platinum); }
 .project-card[data-priority="gold"] { --tier: var(--tier-gold); }
 .project-card[data-priority="silver"] { --tier: var(--tier-silver); }
 .project-card[data-priority="bronze"] { --tier: var(--tier-bronze); }

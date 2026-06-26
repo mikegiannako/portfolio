@@ -2,7 +2,7 @@
   "title": "Java Lab Autograder",
   "description": "A portable Spring Boot application that automatically evaluates student Java submissions by analyzing both code structure and functionality. It provides both a web interface and command-line mode all with configurable requirements.",
   "image": "assets/images/project-screenshots/autograder-image.png",
-  "priority": "gold",
+  "priority": "silver",
   "technologies": ["Java", "JavaParser", "Spring Boot", "CSS", "Javascript", "HTML", "Cross-Platform"],
   "link": "https://www.youtube.com/watch?v=qhV2bt_0f2I"
 }

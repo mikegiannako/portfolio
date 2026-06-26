@@ -2,7 +2,7 @@
   "title": "Taste from Another Place",
   "description": "Developed a top-down Overcooked-style cooking game during a 30-hour university game jam, placing 1st. Built a real-time customer order queue, multiple minigames, and a full audio system, then compiled to WebAssembly so it runs straight in the browser.",
   "image": "assets/images/project-screenshots/taste-from-another-place.png",
-  "priority": "gold",
+  "priority": "silver",
   "technologies": ["C++", "Raylib", "WebAssembly", "Emscripten"],
   "github": "https://github.com/mikegiannako/taste-from-another-place",
   "link": "https://orfeasxyz.itch.io/taste-from-another-place"

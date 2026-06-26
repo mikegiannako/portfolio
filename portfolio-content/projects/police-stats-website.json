@@ -2,7 +2,7 @@
     "title": "GRPD Statistics Website",
     "description": "A website that enhances the visualization and comparison of official yearly statistics from the Greek Police, enabling users to analyze regional data over the years with informative graphs.",
     "image": "assets/images/project-screenshots/police-stats-image.png",
-    "priority": "silver",
+    "priority": "bronze",
     "technologies": ["Java", "RESTful API", "Javascript", "HTML", "CSS", "SQL", "Chart.js"],
     "link": "https://www.youtube.com/watch?v=hijWotfeuvQ"
   }
