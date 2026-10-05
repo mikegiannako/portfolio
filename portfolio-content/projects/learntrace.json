@@ -1,0 +1,7 @@
+{
+  "title": "LearnTrace",
+  "description": "Won the Real World Impact award at the FuturEd AI hackathon (17 teams, 28 hours). A dashboard that shows professors where students get stuck and why: TypeSafe's Jev System One model grades freeform quiz answers, and LearnTrace infers prerequisite links between course topics from anonymous student performance, with statistical evidence behind every link.",
+  "image": "assets/images/project-screenshots/learntrace.png",
+  "priority": "gold",
+  "technologies": ["Python", "FastAPI", "React", "TypeScript", "Jev"]
+}
